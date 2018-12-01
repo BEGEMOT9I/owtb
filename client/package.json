@@ -1,9 +1,9 @@
 {
-  "name": "react-rails",
-  "version": "0.5.0",
+  "name": "owtb-frontend",
+  "version": "0.0.1",
   "description": "frontend",
-  "author": "Nine and One",
-  "private": true,
+  "author": "BEGEMOT9I",
+  "private": false,
   "license": "Private",
   "scripts": {
     "clean:dev": "yarn rimraf ../public/webpack/development/*",
