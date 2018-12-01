@@ -1,0 +1,13 @@
+
+- name: Add nginx config
+  template: src=etc/nginx/sites-enabled/app.conf dest=/etc/nginx/sites-enabled/app.conf
+
+- name: Remove nginx default config
+  file:
+    state: absent
+    path: /etc/nginx/sites-enabled/default
+
+- name: Restart nginx
+  service:
+    name: nginx
+    state: restarted

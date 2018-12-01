@@ -1,0 +1,16 @@
+
+- name: Add puma.service
+  template: src=etc/systemd/system/puma.service dest=/etc/systemd/system/puma.service
+
+- name: Reload systemd
+  systemd: daemon_reload=yes
+
+- name: Enable puma.service
+  systemd:
+    name: puma.service
+    enabled: yes
+
+- name: Start puma.service
+  systemd:
+    name: puma.service
+    state: started

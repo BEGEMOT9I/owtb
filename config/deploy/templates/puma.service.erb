@@ -1,0 +1,17 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+[Service]
+Type=simple
+
+User=<%= fetch(:user) %>
+
+WorkingDirectory=<%= current_path %>
+
+ExecStart=/bin/bash -lc 'bundle exec puma -C <%= shared_path %>/puma.rb'
+
+Restart=never
+
+[Install]
+WantedBy=multi-user.target

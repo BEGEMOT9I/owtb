@@ -1,0 +1,50 @@
+- name: install tools
+  apt: name={{ item }} state=latest update_cache=true
+  with_items:
+    - build-essential
+    - gnupg
+    - gnupg2
+    - mc
+    - vim
+    - htop
+    - git-core
+    - wget
+    - zlib1g-dev
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libffi-dev
+    - curl
+    - libcurl3
+    - libcurl3-gnutls
+    - libcurl4-openssl-dev
+    - nodejs
+    - sudo
+    - zsh
+    - gpgv2
+    - imagemagick
+    - libmagickwand-dev
+    - graphicsmagick
+    - iptables-persistent
+    - systemd
+    - systemd-sysv
+    - ffmpeg
+
+- name: cloning oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh
+    dest=~/.oh-my-zsh
+
+- name: creating new ~/.zshrc
+  copy:
+    src=~/.oh-my-zsh/templates/zshrc.zsh-template
+    dest=~/.zshrc
+
+- name: switch shell to Zsh
+  command: chsh -s /usr/bin/zsh
+
+
+
+#apt-get install build-essential gnupg gnupg2 mc vim htop git-core wget zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt1-dev libffi-dev curl libcurl3 libcurl3-gnutls libcurl4-openssl-dev nodejs sudo zsh gpgv2 imagemagick libmagickwand-dev graphicsmagick iptables-persistent systemd systemd-sysv ffmpeg

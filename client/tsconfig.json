@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "esnext",
+    "outDir": "./dist/",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "sourceMap": false,
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "paths": {
+      "src/*": ["src/*"],
+      "lib/*": ["src/lib/*"],
+      "constants/*": ["src/lib/constants/*"],
+      "components/*": ["src/components/*"],
+      "containers/*": ["src/containers/*"],
+      "pages/*": ["src/pages/*"],
+      "assets/*": ["assets/*", "assets/fonts/*"]
+    },
+    "jsx": "preserve",
+    "lib": ["es5", "es6", "es7", "esnext", "dom", "webworker"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

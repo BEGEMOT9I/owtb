@@ -1,0 +1,49 @@
+---
+- name: download RVM installer
+  get_url:
+    url: https://get.rvm.io
+    dest: "{{deploy_dir}}/rvm_install.sh"
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: set executable RVM installer
+  file:
+    path: "{{deploy_dir}}/rvm_install.sh"
+    mode: 0755
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install RVM key
+  shell: 'bash -c "curl -sSL https://rvm.io/mpapis.asc | gpg --import -"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install RVM
+  shell: 'bash -c "bash {{deploy_dir}}/rvm_install.sh --path {{rvm_dir}} stable"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install requirements
+  shell: 'bash -c "source {{rvm_script}} && rvm requirements"'
+
+- name: install Ruby
+  command: '{{rvm_bin}} install {{ruby_version}}'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: set default Ruby
+  shell: 'bash -c "source {{rvm_script}} && rvm use {{ruby_version}} --default"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install bundler
+  shell: 'bash -c "source {{rvm_script}} && gem install bundler --no-ri --no-rdoc"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"

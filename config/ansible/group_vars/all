@@ -1,0 +1,44 @@
+---
+# Server Timzone + Locale
+timezone: Europe/Moscow
+locale: ru_RU.UTF-8
+locale_lang: 'ru_RU:ru'
+
+
+# General settings
+host_user_homes: /home
+deploy_dir: /home/deployer
+deploy_user: deployer
+
+# User password hash
+# Linux: mkpasswd --method=sha-512
+# Mac: 
+# pip install passlib
+# python -c "from passlib.hash import sha512_crypt; import getpass; print(sha512_crypt.using(rounds=5000).hash(getpass.getpass()))"
+
+deploy_password: "$6$opx6bZJeIaeWSyka$LlgCv/AuEmKoqnBijFZd2aOciWX4TSRc7vXeIAoTGyQgdMsHoafeZ6xL81Eu50Etep58Cs6dkve1TDRbrNlWG."
+database_name: app
+postgres_password: password
+deploy_app_name: app
+deploy_server_hostname: app.team
+
+# Authorized Hosts
+# This copies your local public key to the remote machine
+# for passwordless login. Modify this!
+ssh_public_key_files:
+  - ~/.ssh/id_rsa.pub
+
+# Ruby
+ruby_version: 2.5.1
+node_version: v10.7.0
+
+nvm_script: "{{ deploy_dir }}/.nvm/nvm.sh"
+
+rvm_user: "{{ deploy_user }}"
+rvm_user_home: "{{ host_user_homes }}/{{ rvm_user }}"
+rvm_dir: "{{ rvm_user_home }}/.rvm"
+rvm_bin: "{{ rvm_dir }}/bin/rvm"
+rvm_script: "{{ rvm_dir }}/scripts/rvm"
+rvm_default_ruby: true
+rvm_ruby_bin: "{{ rvm_dir }}/rubies/ruby-{{ ruby_version }}/bin/ruby"
+rvm_gem_bin: "{{ rvm_dir }}/rubies/ruby-{{ ruby_version }}/bin/gem"

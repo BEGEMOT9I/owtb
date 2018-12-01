@@ -1,0 +1,52 @@
+# Note: You must restart bin/webpack-dev-server for changes to take effect
+
+default: &default
+  source_path: client/src
+  source_entry_path: startup
+  cache_path: tmp/cache/webpacker
+
+  # Additional paths webpack should lookup modules
+  # ['app/assets', 'engine/foo/app/assets']
+  resolved_paths: ['client/assets']
+
+  # Reload manifest.json on all requests so we reload latest compiled packs
+  cache_manifest: false
+
+  extensions:
+    - .js
+    - .jsx
+    - .png
+    - .svg
+    - .gif
+    - .jpeg
+    - .jpg
+
+development:
+  <<: *default
+  compile: false
+  public_output_path: webpack/development
+
+  dev_server: &dev_server
+    host: localhost
+    port: 3035
+    https: false
+    hmr: false
+  
+  dev_server_hot:
+    <<: *dev_server
+    hmr: true
+
+test:
+  <<: *default
+  compile: true
+  public_output_path: webpack/test
+
+production:
+  <<: *default
+  public_output_path: webpack/production
+
+  # Production depends on precompilation of packs prior to booting for performance.
+  compile: false
+
+  # Cache manifest.json for performance
+  cache_manifest: true

@@ -1,0 +1,14 @@
+- name: Change ssh ClientAliveInterval
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^ClientAliveInterval\s"
+              line="ClientAliveInterval 15"
+              state=present
+
+- name: Change ssh ClientAliveCountMax
+  lineinfile: dest=/etc/ssh/sshd_config
+              regexp="^ClientAliveCountMax\s"
+              line="ClientAliveCountMax 5"
+              state=present
+
+#- name: Reload ssh service
+#  service: name=ssh state=reloaded

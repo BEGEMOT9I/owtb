@@ -1,0 +1,46 @@
+---
+- name: download NVM installer
+  get_url:
+    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh
+    dest: "{{deploy_dir}}/nvm_install.sh"
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: set executable NVM installer
+  file:
+    path: "{{deploy_dir}}/nvm_install.sh"
+    mode: 0755
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install NVM
+  command: "bash {{deploy_dir}}/nvm_install.sh"
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: install NodeJS
+  shell: 'bash -c "source {{nvm_script}} && nvm install {{node_version}}"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: set default NodeJS
+  shell: 'bash -c "source {{nvm_script}} && nvm alias default {{node_version}}"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+
+- name: symlink NodeJS
+  file:
+    src: "{{deploy_dir}}/.nvm/versions/node/{{node_version}}/bin/node"
+    dest: /usr/local/bin/node
+    state: link
+
+- name: install global npm packages
+  shell: 'bash -c "source {{nvm_script}} && npm install yarn cross-env webpack aglio rimraf -g"'
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"

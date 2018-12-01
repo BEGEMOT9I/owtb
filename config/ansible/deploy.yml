@@ -1,0 +1,30 @@
+---
+- name: Install Rails Server
+  hosts: hosts
+  remote_user: root
+  #remote_user: deploy
+  #become: yes
+  #become_method: sudo
+  vars:
+    es_java_install: false
+    java_version: 8
+
+  pre_tasks:
+    - name: apt-get update
+      raw: apt-get update -qq
+    - name: install python 2.7 and aptitude
+      raw: apt-get install -qq python2.7 aptitude
+    - name: set python 2.7 as default
+      raw: update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
+  roles:
+    - common
+    - deploy-user
+    - nginx
+    - nginx-config
+    - nvm
+    - rvm
+    - redis
+    # - { role: geerlingguy.java, when: "ansible_os_family == 'Debian'", java_packages: ['openjdk-8-jdk'] }
+    # - { role: elastic.elasticsearch, es_instance_name: "node1", es_xpack_features: [] }
+    - postgresql
+    - services

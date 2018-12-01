@@ -1,0 +1,22 @@
+
+- name: Enable ru locale
+  command: sed -i '/^#.* ru_RU.* /s/^#//' /etc/locale.gen
+
+- name: Enable en locale
+  command: sed -i '/^#.* en_US.* /s/^#//' /etc/locale.gen
+
+- name: generate en and ru locale
+  command: locale-gen ru_RU.UTF-8 en_US.UTF-8
+
+- name: set locale to en
+  template: src=etc/default/locale dest=/etc/default/locale
+
+- name: update locale
+  command: update-locale
+
+- name: set /etc/localtime to {{ timezone  }}
+  command: /bin/cp /usr/share/zoneinfo/{{ timezone  }} /etc/localtime
+
+- name: set /etc/timezone to {{ timezone  }}
+  template: src=etc/timezone dest=/etc/timezone
+  notify: update tzdata

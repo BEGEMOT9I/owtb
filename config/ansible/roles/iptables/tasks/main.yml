@@ -1,0 +1,8 @@
+- name: Add iptables persistent restore
+  template: src=etc/network/if-up.d/iptables dest=/etc/network/if-up.d/iptables mode=+x
+
+- name: Add iptables v4 rules
+  template: src=etc/iptables/rules.v4 dest=/etc/iptables/rules.v4
+
+- name: Add iptables v6 rules
+  template: src=etc/iptables/rules.v6 dest=/etc/iptables/rules.v6

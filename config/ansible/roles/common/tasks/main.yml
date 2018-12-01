@@ -1,0 +1,11 @@
+---
+- name: gather facts
+  setup:
+
+#- name: perform safe upgrade
+#  apt: upgrade=safe update_cache=yes
+
+- import_tasks: sshd.yml
+- import_tasks: hostname.yml
+- import_tasks: tools.yml
+- import_tasks: locale.yml
