@@ -30,6 +30,7 @@ gem 'dotenv-rails'
 gem 'slim-rails'
 gem 'rails-i18n', '~> 5.0.0'
 gem 'foreman', require: false
+gem 'rack-cors'
 
 gem 'sentry-raven'
 # Use CoffeeScript for .coffee assets and views

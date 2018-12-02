@@ -2,6 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const Config = require('webpack-config').default
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
+const ReactJssHmrPlugin = require('react-jss-hmr/webpack')
 
 const { SETTINGS, WORKBOX, ENV, OUTPUT } = require('../variables')
 const { getClientEntries } = require('../settings')
@@ -42,6 +43,9 @@ let config = new Config().extend('config/development/base.js').merge({
 
 if (webpackerConfig.hmr) {
   config.merge({
+    resolve: {
+      plugins: [new ReactJssHmrPlugin()]
+    },
     plugins: [
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1
