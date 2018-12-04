@@ -16,6 +16,10 @@ class Api::V1::ApplicationController < ActionController::Base
     @current_user ||= User.joins(:sessions).where(sessions: { id: request.headers['X-User-Token'] }).first
   end
 
+  def current_session
+    @current_session ||= Session.where(id: request.headers['X-User-Token']).first
+  end
+
   def auth_user!
     render json: { error: 'Unauthorized' }, status: 401 if !current_user
   end

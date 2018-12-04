@@ -18,7 +18,7 @@ class Api::V1::SessionsController < Api::V1::ApplicationController
   end
 
   def destroy
-    current_user.destroy
+    current_session.destroy
     head :ok
   end
 
