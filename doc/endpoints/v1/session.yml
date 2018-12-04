@@ -1,0 +1,54 @@
+collection:
+  index:
+    post:
+      tags:
+        - "session"
+      summary: "Авторизация"
+      produces:
+        - "application/json"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                session:
+                  type: "object"
+                  properties:
+                    email:
+                      type: "string"
+                    password:
+                      type: "string"
+      responses:
+        201:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  session:
+                    type: "object"
+                    properties:
+                      access_token:
+                        type: "string"
+                      refresh_token:
+                        type: "string"
+                      expire_at:
+                        type: "number"
+                  profile:
+                    $ref: './../../schemas/profile.yml'
+        403:
+          description: "Forbidden"
+    delete:
+      tags:
+        - "session"
+      summary: "Выход"
+      security:
+        - api_key: []
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"

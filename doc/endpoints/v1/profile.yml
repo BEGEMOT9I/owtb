@@ -1,0 +1,62 @@
+collection:
+  index:
+    get:
+      tags:
+        - "profile"
+      summary: "Просмотр профиля"
+      security:
+        - api_key: []
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: './../../schemas/profile.yml'
+    post:
+      tags:
+        - "profile"
+      summary: "Регистрация пользователя"
+      produces:
+        - "application/json"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                profile:
+                  $ref: './../../schemas/user_request.yml'
+      responses:
+        201:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                  session:
+                    type: "object"
+                    properties:
+                      access_token:
+                        type: "string"
+                      refresh_token:
+                        type: "string"
+                      expire_at:
+                        type: "number"
+                  profile:
+                    $ref: './../../schemas/profile.yml'
+    delete:
+      tags:
+        - "profile"
+      summary: "Удаляние аккаунта"
+      security:
+        - api_key: []
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Successful operation"
