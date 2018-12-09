@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Helmet from 'react-helmet'
-import 'modern-normalize'
 
 interface Props {
   lang?: string

@@ -4,7 +4,7 @@ import universal from 'react-universal-component'
 
 import Loading from 'components/Loading'
 
-export const routes: Route[] = [{ name: 'index', path: '/' }]
+export const routes: Route[] = [{ name: 'index', path: '/' }, { name: 'login', path: '/login' }]
 
 const universalRoute = (loadSpec, options = {}) =>
   universal<App.RouteProps>(loadSpec, {
@@ -16,6 +16,7 @@ const universalRoute = (loadSpec, options = {}) =>
 
 export const routeComponents: { [key: string]: ReturnType<typeof universalRoute> } = {
   index: universalRoute(import('./pages/Index')),
+  login: universalRoute(import('./pages/Login')),
   [constants.UNKNOWN_ROUTE]: universalRoute(import('./pages/NotFound'))
 }
 
