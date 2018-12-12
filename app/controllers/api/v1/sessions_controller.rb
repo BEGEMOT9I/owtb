@@ -18,18 +18,17 @@ class Api::V1::SessionsController < Api::V1::ApplicationController
   end
 
   def update
-    result = SessionServices::SignIn.call(refresh_token: params[:refresh_token])
+    result = SessionServices::Update.call(refresh_token: params[:refresh_token])
     if result.failure?
       return render json: { error: 'Forbidden' }, status: 403
     end
-    access_token = result.session
     render json: {
       session: {
-        access_token: access_token.id,
-        refresh_token: access_token.refresh_token,
-        expire_at: access_token.expire_at&.to_f
+        access_token: result.session.id,
+        refresh_token: result.session.refresh_token,
+        expire_at: result.session.expire_at&.to_f
       },
-      profile: ProfileSerializer.new(access_token.user).as_json
+      profile: ProfileSerializer.new(result.session.user).as_json
     }, status: 201
   end
 

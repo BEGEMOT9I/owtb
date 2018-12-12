@@ -5,7 +5,7 @@ class SessionServices::Update
   def call
     Session.transaction do
       if old_session = Session.find_by(refresh_token: context.refresh_token)
-        context.session = SessionServices::Create.call(user: old_session.user)
+        context.session = SessionServices::Create.call(user: old_session.user).session
         SessionServices::Destroy.call(session: old_session)
       else
         context.fail!
