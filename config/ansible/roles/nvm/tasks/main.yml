@@ -1,11 +1,21 @@
 ---
+- name: Check if nvm installed
+  shell: nvm -v
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+  register: nvm_exists
+  failed_when: false
+  changed_when: False
+
 - name: download NVM installer
   get_url:
-    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh
+    url: https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh
     dest: "{{deploy_dir}}/nvm_install.sh"
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: nvm_exists.rc != 0
 
 - name: set executable NVM installer
   file:
@@ -14,18 +24,30 @@
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: nvm_exists.rc != 0
 
 - name: install NVM
   command: "bash {{deploy_dir}}/nvm_install.sh"
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: nvm_exists.rc != 0
+
+- name: Check if nodejs installed
+  shell: nvm use {{ node_version }}
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+  register: node_exists
+  failed_when: false
+  changed_when: False
 
 - name: install NodeJS
   shell: 'bash -c "source {{nvm_script}} && nvm install {{node_version}}"'
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: node_exists.rc != 0
 
 - name: set default NodeJS
   shell: 'bash -c "source {{nvm_script}} && nvm alias default {{node_version}}"'
@@ -40,7 +62,13 @@
     state: link
 
 - name: install global npm packages
-  shell: 'bash -c "source {{nvm_script}} && npm install yarn cross-env webpack aglio rimraf -g"'
+  npm: name={{ item }} executable={{deploy_dir}}/.nvm/versions/node/{{node_version}}/bin/npm global=yes state=present
+  with_items:
+    - yarn
+    - cross-env
+    - webpack
+    - rimraf
+    - pm2
   become_method: su
   become: true
   become_user: "{{deploy_user}}"

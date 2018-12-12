@@ -1,25 +1,27 @@
 ---
+- name: Add PostgreSQL repo key
+  apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+
+- name: Add PostgreSQL repo
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' state=present filename='postgresql' update_cache='yes'
 
 - name: Install PostgreSQL
-  apt: name={{item}}
+  apt: name={{ item }} state=present update_cache=true
   with_items:
-    - postgresql
-    - libpq-dev
-    - postgresql-contrib
-    - python-psycopg2
-
-- name: Ensure PostgreSQL is running
-  service: name=postgresql state=started enabled=yes
+   - postgresql-10
+   - postgresql-client-10
+   - libpq-dev
+   - python-psycopg2
 
 - name: Configure PostgreSQL
   lineinfile:
-    dest: /etc/postgresql/9.6/main/postgresql.conf
+    dest: /etc/postgresql/10/main/postgresql.conf
     regexp: '^#?{{ item.property | regex_escape() }}\s*='
     line: "{{ item.property }} = {{ item.value }}"
   with_items:
-    - { property: 'max_connections', value: '500' }
-    - { property: 'shared_buffers', value: '8GB' }
-    - { property: 'work_mem', value: '100MB' }
+    - { property: 'max_connections', value: '1000' }
+    - { property: 'shared_buffers', value: '1GB' }
+    - { property: 'work_mem', value: '20MB' }
     # - { property: 'synchronous_commit', value: "'off'" }
   notify: Reload PostgreSQL
 
@@ -31,4 +33,4 @@
 - name: Create postgres user
   become: true
   become_user: postgres
-  postgresql_user: name=postgres password={{ postgres_password }}
+  postgresql_user: name=postgres password={{ postgres_password }} encrypted=yes

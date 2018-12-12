@@ -17,10 +17,10 @@ deploy_user: deployer
 # python -c "from passlib.hash import sha512_crypt; import getpass; print(sha512_crypt.using(rounds=5000).hash(getpass.getpass()))"
 
 deploy_password: "$6$opx6bZJeIaeWSyka$LlgCv/AuEmKoqnBijFZd2aOciWX4TSRc7vXeIAoTGyQgdMsHoafeZ6xL81Eu50Etep58Cs6dkve1TDRbrNlWG."
-database_name: app
+database_name: owtb
 postgres_password: password
-deploy_app_name: app
-deploy_server_hostname: app.team
+deploy_app_name: owtb
+deploy_server_hostname: owtb.91.team
 
 # Authorized Hosts
 # This copies your local public key to the remote machine

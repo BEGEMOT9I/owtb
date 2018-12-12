@@ -1,40 +1,72 @@
 ---
-- name: download RVM installer
-  get_url:
-    url: https://get.rvm.io
-    dest: "{{deploy_dir}}/rvm_install.sh"
+- name: Check if RVM installed
+  shell: rvm -v
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  register: rvm_exists
+  failed_when: false
+  changed_when: False
+
+- name: download RVM installer
+  get_url:
+    url: https://raw.githubusercontent.com/rvm/rvm/master/binscripts/rvm-installer
+    dest: "{{deploy_dir}}/rvm_installer"
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+  when: rvm_exists.rc != 0
+
+- name: download RVM installer key
+  get_url:
+    url: https://raw.githubusercontent.com/rvm/rvm/master/binscripts/rvm-installer.asc
+    dest: "{{deploy_dir}}/rvm-installer.asc"
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+  when: rvm_exists.rc != 0
 
 - name: set executable RVM installer
   file:
-    path: "{{deploy_dir}}/rvm_install.sh"
+    path: "{{deploy_dir}}/rvm_installer"
     mode: 0755
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: rvm_exists.rc != 0
 
 - name: install RVM key
-  shell: 'bash -c "curl -sSL https://rvm.io/mpapis.asc | gpg --import -"'
+  shell: 'bash -c "gpg --keyserver hkp://keys.gnupg.net --no-tty --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB"'
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: rvm_exists.rc != 0
 
 - name: install RVM
   shell: 'bash -c "bash {{deploy_dir}}/rvm_install.sh --path {{rvm_dir}} stable"'
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: rvm_exists.rc != 0
+
+- name: Check if ruby installed
+  shell: rvm use {{ruby_version}}
+  become_method: su
+  become: true
+  become_user: "{{deploy_user}}"
+  register: ruby_exists
+  failed_when: false
 
 - name: install requirements
   shell: 'bash -c "source {{rvm_script}} && rvm requirements"'
+  when: ruby_exists.rc != 0
 
 - name: install Ruby
   command: '{{rvm_bin}} install {{ruby_version}}'
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: ruby_exists.rc != 0
 
 - name: set default Ruby
   shell: 'bash -c "source {{rvm_script}} && rvm use {{ruby_version}} --default"'
@@ -47,3 +79,4 @@
   become_method: su
   become: true
   become_user: "{{deploy_user}}"
+  when: ruby_exists.rc != 0
