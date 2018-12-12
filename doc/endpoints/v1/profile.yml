@@ -49,6 +49,30 @@ collection:
                         type: "number"
                   profile:
                     $ref: './../../schemas/profile.yml'
+    put:
+      tags:
+        - "profile"
+      summary: "Смена пароля"
+      security:
+        - api_key: []
+      produces:
+        - "application/json"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              properties:
+                profile:
+                  $ref: './../../schemas/user_update_request.yml'
+      responses:
+        200:
+          description: "Successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: './../../schemas/profile.yml'
     delete:
       tags:
         - "profile"

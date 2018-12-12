@@ -21,12 +21,26 @@ class Api::V1::ProfilesController < Api::V1::ApplicationController
     }, status: 201
   end
 
+  def update
+    result = UserServices::Update.call(user: current_user, params: profile_update_params)
+    if result.failure?
+      return render json: { errors: result.user.errors }, status: 422
+    end
+    render json: ProfileSerializer.new(result.user).as_json
+  end
+
   def destroy
     current_user.destroy
     head :ok
   end
 
+  private
+
   def profile_params
     params.require(:profile).permit(:email, :password)
+  end
+
+  def profile_update_params
+    params.require(:profile).permit(:password)
   end
 end

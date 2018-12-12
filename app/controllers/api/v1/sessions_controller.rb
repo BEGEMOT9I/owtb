@@ -29,7 +29,7 @@ class Api::V1::SessionsController < Api::V1::ApplicationController
         expire_at: result.session.expire_at&.to_f
       },
       profile: ProfileSerializer.new(result.session.user).as_json
-    }, status: 201
+    }
   end
 
   def destroy

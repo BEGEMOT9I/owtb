@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :session, only: [:create, :update, :destroy]
-      resource :profile, only: [:show, :create, :destroy]
+      resource :profile, only: [:show, :create, :update, :destroy]
     end
   end
 
