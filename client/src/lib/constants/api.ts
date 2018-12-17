@@ -19,3 +19,22 @@ export const METHOD = {
   PUT: 'put',
   DELETE: 'delete'
 }
+
+export const LOADING = 'LOADING'
+export const LOADED = 'LOADED'
+export const FAILED = 'FAILED'
+export const MISSING = 'MISSING'
+export const IDLE = 'IDLE'
+
+export enum STATES {
+  LOADING,
+  LOADED,
+  FAILED,
+  MISSING,
+  IDLE
+}
+
+export const ENDPOINT = {
+  PROFILE: '/profile',
+  SESSION: '/session'
+}

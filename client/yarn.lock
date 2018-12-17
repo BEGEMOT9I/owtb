@@ -7293,9 +7293,9 @@ router5-transition-path@5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/router5-transition-path/-/router5-transition-path-5.4.0.tgz#8913c88a623a951a61c4e6eb32762a7218e5c7b1"
 
-router5@^6.6.2:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/router5/-/router5-6.6.2.tgz#f78c9d634ecc19bc74b9906c2b07df593d3635c5"
+router5@6.6.3:
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/router5/-/router5-6.6.3.tgz#943a9d2fd23aaa4fbea3a6795f0acc40a0267328"
   dependencies:
     route-node "3.4.2"
     router5-transition-path "5.4.0"

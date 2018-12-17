@@ -21,7 +21,8 @@
         "useESModules": false
       }
     ],
-    "@babel/proposal-class-properties",
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }],
     "@babel/transform-spread",
     "@babel/transform-classes",
     "@babel/syntax-dynamic-import",

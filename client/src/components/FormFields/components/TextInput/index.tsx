@@ -31,7 +31,6 @@ class TextInput extends PureComponent<Props, State> {
       meta: { error, touched },
       disabled
     } = this.props
-    console.log(name, touched, error, value)
 
     return (
       <div className={classNames(classes.container, className)}>

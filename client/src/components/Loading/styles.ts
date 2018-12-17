@@ -1,53 +1,44 @@
-import { LoadingProps } from './index'
+import { Props } from './index'
 
-const keyframeId = 'loadSpin'
+const KEYFRAME_ID = 'rotateLoader'
+const BASE_SIZE = 64
 
-const styles = {
-  [`@keyframes ${keyframeId}`]: {
+const styles = (theme: App.Theme) => ({
+  [`@keyframes ${KEYFRAME_ID}`]: {
     '0%': {
       transform: 'rotate(0deg)'
+    },
+    '50%': {
+      transform: 'rotate(180deg)'
     },
     '100%': {
       transform: 'rotate(360deg)'
     }
   },
-  spinner: {
-    borderRadius: '50%',
-    boxShadow: 'inset 0 0 0 1em',
-    color: (props: LoadingProps) => props.color || '#000',
-    fontSize: (props: LoadingProps) => props.size || '11px',
-    height: '10em',
-    margin: (props: LoadingProps) => props.margin || '40px auto',
-    position: 'relative',
-    textIndent: '-99999em',
+  container: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: '1 0 100%',
+    width: '100%',
+    height: '100%'
+  },
+  loading: {
+    fontSize: ({ size }: Props) => size || BASE_SIZE,
+    height: '1em',
+    width: '1em',
     transform: 'translateZ(0)',
-    width: '10em',
-    '&:before': {
-      animation: (props: LoadingProps) =>
-        `${keyframeId} ${props.duration || 2}s infinite ease ${props.duration - 0.5 || 2 - 0.5}s`,
-      background: (props: LoadingProps) => props.background || '#fff',
-      borderRadius: '10.2em 0 0 10.2em',
-      content: '""',
-      height: '10.2em',
-      left: '-0.1em',
-      position: 'absolute',
-      top: '-0.1em',
-      transformOrigin: '5.2em 5.1em',
-      width: '5.2em'
-    },
-    '&:after': {
-      animation: (props: LoadingProps) => `${keyframeId} ${props.duration || 2}s infinite ease`,
-      background: (props: LoadingProps) => props.background || '#fff',
-      borderRadius: '0 10.2em 10.2em 0',
-      content: '""',
-      height: '10.2em',
-      left: '5.1em',
-      position: 'absolute',
-      top: '-0.1em',
-      transformOrigin: '0px 5.1em',
-      width: '5.2em'
-    }
+    textIndent: '-9999rem',
+    backgroundColor: (props: Props) => props.background || 'transparent',
+    borderRadius: '100%',
+    borderWidth: (props: Props) => (props.size ? '0.1em' : 6),
+    borderColor: (props: Props) => props.color || theme.colors.primary,
+    border: 'solid',
+    borderBottomColor: 'transparent !important',
+    borderLeftColor: 'transparent !important',
+    animation: `${KEYFRAME_ID} 0.8s infinite linear`,
+    alignSelf: 'center'
   }
-}
+})
 
-export { styles as default }
+export { BASE_SIZE, styles as default }

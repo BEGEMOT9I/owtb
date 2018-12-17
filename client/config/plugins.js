@@ -7,6 +7,7 @@ const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
 const workboxPlugin = require('workbox-webpack-plugin')
 const StatsPlugin = require('stats-webpack-plugin')
 const manifestPlugin = require('webpack-manifest-plugin')
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
 const { OUTPUT, LOADERS_OPTIONS, SETTINGS, WORKBOX, ENV } = require('./variables')
 
@@ -59,6 +60,7 @@ const getClientPlugins = (environment, hmr = false) => {
       publicPath: OUTPUT.publicPath,
       writeToFileEmit: true
     })
+    // new BundleAnalyzerPlugin()
   ]
 
   return plugins

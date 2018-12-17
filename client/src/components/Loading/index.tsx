@@ -1,23 +1,74 @@
-import React from 'react'
-import { compose } from 'recompose'
+import React, { Component, CSSProperties } from 'react'
+import classnames from 'classnames'
 import injectStyles, { JSSProps } from 'react-jss'
-import classNames from 'classnames'
 
 import styles from './styles'
 
-export interface LoadingProps {
-  className?: string
+export interface OuterProps {
   color?: string
   background?: string
-  duration?: number
   size?: string
   margin?: string
+  style?: CSSProperties
+  className?: string
+  // Time in ms between mounting and rendering
+  // mainly to prevent flickering
+  delay?: number
+}
+export interface Props extends OuterProps, JSSProps<typeof styles> {}
+
+interface State {
+  pastDelay: boolean
 }
 
-interface Props extends JSSProps<typeof styles>, LoadingProps {}
+class Loading extends Component<Props, State> {
+  delayTimeout: any
+  static defaultProps: Partial<Props> = {
+    delay: 300
+  }
 
-const Loading: React.StatelessComponent<Props> = ({ classes, className }) => (
-  <div className={classNames(classes.spinner, className)} />
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      pastDelay: !!props.delay && props.delay > 0 ? false : true
+    }
+  }
+
+  componentDidMount() {
+    if (!this.state.pastDelay)
+      this.delayTimeout = setTimeout(() => this.setState({ pastDelay: true }), this.props.delay)
+  }
+  componentWillUnmount() {
+    clearTimeout(this.delayTimeout)
+  }
+
+  render() {
+    const { classes, style, className } = this.props
+    const { pastDelay } = this.state
+
+    return (
+      pastDelay && (
+        <div className={classnames(classes.container, className)} style={style}>
+          <div className={classes.loading} />
+        </div>
+      )
+    )
+  }
+}
+const LoadingComponent = injectStyles<OuterProps>(styles)(Loading)
+
+export const LoadingWrapped: React.StatelessComponent<OuterProps> = ({ style, className }) => (
+  <div
+    style={{
+      width: '100%',
+      height: '100vh',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+  >
+    <LoadingComponent />
+  </div>
 )
 
-export default compose<Props, LoadingProps>(injectStyles(styles))(Loading)
+export default LoadingComponent

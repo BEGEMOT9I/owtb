@@ -11,12 +11,12 @@ import TextInput from 'components/FormFields/components/TextInput'
 import Button from 'components/Button'
 import LoadingOverlay from 'components/LoadingOverlay'
 import { email } from 'lib/utils/validations'
-import { STATES } from 'constants/api'
 import styles from './styles'
 
 interface FormValues {
   email: string
   password: string
+  passwordRepeated: string
 }
 interface OuterProps extends App.RouteProps {}
 interface Props extends OuterProps, JSSProps<typeof styles> {
@@ -26,32 +26,24 @@ interface State {}
 
 @inject('userStore')
 @observer
-class Login extends Component<Props, State> {
+class Registration extends Component<Props, State> {
   onSubmit = ({ email, password }: FormValues) => {
-    this.props.userStore.authorize(email, password)
+    this.props.userStore.registration(email, password)
   }
 
   render() {
-    const {
-      classes,
-      userStore: {
-        requests: {
-          authorization: { state }
-        }
-      }
-    } = this.props
-    const submitting = state === STATES.LOADING
+    const { classes } = this.props
 
     return (
       <Fragment>
-        <AppHelmet title="Авторизация" />
+        <AppHelmet title="Регистрация" />
         <section className={classes.container}>
-          <h1 className="visuallyHidden">Страница логина</h1>
+          <h1 className="visuallyHidden">Страница регистрации</h1>
           <Form
             onSubmit={this.onSubmit}
             render={({ handleSubmit, pristine, invalid }) => (
               <section className={classes.formWrapper}>
-                <h2 className={classes.title}>Авторизация</h2>
+                <h2 className={classes.title}>Регистрация</h2>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <Field
                     className={classes.field}
@@ -69,17 +61,25 @@ class Login extends Component<Props, State> {
                     type="password"
                     withoutDelay
                   />
+                  <Field
+                    className={classes.field}
+                    name="passwordRepeated"
+                    placeholder="Повторите пароль"
+                    component={TextInput}
+                    type="password"
+                    withoutDelay
+                  />
                   {/* {error && !submitting && <div className={classes.errorMsg}>{error}</div>} */}
                   <Button
                     htmlType="submit"
-                    disabled={submitting}
+                    // disabled={submitting}
                     type="primary"
                     className={classes.submitButton}
                   >
-                    Войти
+                    Зарегистрироваться
                   </Button>
+                  <LoadingOverlay show={false} />
                 </form>
-                <LoadingOverlay show={submitting} />
               </section>
             )}
           />
@@ -92,4 +92,4 @@ class Login extends Component<Props, State> {
 export default compose<Props, OuterProps>(
   hot(module),
   injectStyles(styles)
-)(Login)
+)(Registration)
