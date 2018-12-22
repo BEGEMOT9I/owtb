@@ -7,7 +7,7 @@ import AppRouter from '../Router'
 const muiTheme = createMuiTheme({
   typography: {
     useNextVariants: true,
-    fontFamily: 'Open Sans'
+    fontFamily: 'Tahoma, Geneva, sans-serif'
   },
   palette: {
     primary: blueGrey
