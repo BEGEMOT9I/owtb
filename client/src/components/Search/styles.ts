@@ -27,7 +27,7 @@ const styles = (theme: App.Theme) => ({
     height: '0.875rem',
     padding: '0.1rem',
     marginLeft: '0.5rem',
-    backgroundColor: theme.colors.grey,
+    backgroundColor: theme.palette.text.secondary,
     borderRadius: '50%',
     boxSizing: 'border-box',
     cursor: 'pointer',
@@ -46,12 +46,11 @@ const styles = (theme: App.Theme) => ({
     backgroundColor: '#FFFFFF',
     boxShadow: 'none',
     outline: 'none',
-
     '&::placeholder': {
       fontFamily: 'Helvetica',
       fontSize: '0.875rem',
       fontStyle: 'normal',
-      color: theme.colors.grey
+      color: theme.palette.text.secondary
     }
   },
   inputOpen: {

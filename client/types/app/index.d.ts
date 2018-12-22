@@ -1,10 +1,9 @@
 // Type definitions for application redux state
 import { Route } from 'router5'
-
-import AppTheme from 'lib/theme'
+import { Theme } from '@material-ui/core/styles/createMuiTheme'
 
 declare namespace App {
-  type Theme = typeof AppTheme
+  type Theme = Theme
 
   interface RouteProps {
     route?: Route

@@ -23,28 +23,43 @@ const styles = (theme: App.Theme) => ({
     alignItems: 'center',
     maxWidth: 350,
     width: '100%',
-    padding: '1rem 1rem 1rem 1rem',
-    backgroundColor: theme.colors.contrastBackground,
+    paddingTop: '1rem',
+    backgroundColor: theme.palette.background.paper,
     borderRadius: 2,
     boxSizing: 'border-box'
   },
   form: {
     position: 'relative',
-    width: '100%'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '100%',
+    padding: '0rem 1rem 1rem 1rem',
+    boxSizing: 'border-box'
   },
   field: {
     width: '100%',
-    marginTop: '0.3125rem'
+    marginTop: '0.5rem'
   },
   errorMsg: {
-    color: theme.colors.error,
+    color: theme.palette.error,
     fontSize: 12,
     marginTop: '1rem',
     width: '100%'
   },
   submitButton: {
-    margin: '0 auto',
-    marginTop: '0.5rem'
+    marginTop: '1rem'
+  },
+  errorsList: {
+    width: '100%',
+    margin: 0,
+    marginTop: '1rem',
+    paddingLeft: '1rem',
+    boxSizing: 'border-box'
+  },
+  errorItem: {
+    fontSize: '0.75rem',
+    color: theme.palette.error.main
   }
 })
 

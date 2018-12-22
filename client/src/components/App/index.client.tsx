@@ -9,7 +9,7 @@ import DevTools from 'mobx-react-devtools'
 import { RouterProvider } from 'react-router5'
 
 import stores from 'lib/store'
-import router from 'lib/store/plugins/router'
+import router from 'src/lib/router'
 import Container from './components/Container'
 
 interface Props {

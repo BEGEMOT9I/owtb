@@ -1,13 +1,23 @@
 import React from 'react'
-import { ThemeProvider } from 'react-jss'
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import blueGrey from '@material-ui/core/colors/blueGrey'
 
 import AppRouter from '../Router'
-import theme from 'lib/theme'
+
+const muiTheme = createMuiTheme({
+  typography: {
+    useNextVariants: true,
+    fontFamily: 'Open Sans'
+  },
+  palette: {
+    primary: blueGrey
+  }
+})
 
 const Container = () => (
-  <ThemeProvider theme={theme}>
+  <MuiThemeProvider theme={muiTheme}>
     <AppRouter />
-  </ThemeProvider>
+  </MuiThemeProvider>
 )
 
 export default Container

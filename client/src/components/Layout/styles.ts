@@ -18,8 +18,8 @@ const styles = (theme: App.Theme) => ({
       flexGrow: 1,
       width: '100%',
       font: {
-        family: 'Circe',
-        size: 15
+        family: theme.typography.fontFamily,
+        size: 16
       },
       zIndex: 1,
       boxSizing: 'border-box',
@@ -36,7 +36,7 @@ const styles = (theme: App.Theme) => ({
     flexDirection: 'column',
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.colors.background
+    backgroundColor: theme.palette.background.default
   },
   '@global .visuallyHidden': {
     position: 'absolute',

@@ -26,3 +26,5 @@ export const routeComponents: { [key: string]: ReturnType<typeof universalRoute>
 }
 
 export const getRouteComponent = (name: string) => routeComponents[name]
+
+export const restrictedRoutes = ['index']

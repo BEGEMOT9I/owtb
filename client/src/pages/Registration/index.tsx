@@ -4,13 +4,18 @@ import { observer, inject } from 'mobx-react'
 import injectStyles, { JSSProps } from 'react-jss'
 import { compose } from 'recompose'
 import { hot } from 'react-hot-loader'
+import isEmpty from 'lodash/isEmpty'
+
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
 import { UserStore } from 'lib/store/modules/user'
 import AppHelmet from 'components/AppHelmet'
-import TextInput from 'components/FormFields/components/TextInput'
-import Button from 'components/Button'
+import FormInput from 'components/FormFields/components/Input'
+import ErrorsList from 'components/ErrorsList'
 import LoadingOverlay from 'components/LoadingOverlay'
-import { email } from 'lib/utils/validations'
+import { email, notEmpty, sameAsOriginal } from 'lib/utils/validations'
 import styles from './styles'
 
 interface FormValues {
@@ -32,7 +37,15 @@ class Registration extends Component<Props, State> {
   }
 
   render() {
-    const { classes } = this.props
+    const {
+      classes,
+      userStore: {
+        requests: {
+          registration: { errors, state }
+        },
+        isRegistrationSubmitting
+      }
+    } = this.props
 
     return (
       <Fragment>
@@ -42,45 +55,62 @@ class Registration extends Component<Props, State> {
           <Form
             onSubmit={this.onSubmit}
             render={({ handleSubmit, pristine, invalid }) => (
-              <section className={classes.formWrapper}>
-                <h2 className={classes.title}>Регистрация</h2>
+              <Paper className={classes.formWrapper}>
+                <Typography variant="h5" component="h2">
+                  Регистрация
+                </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <Field
-                    className={classes.field}
                     name="email"
-                    placeholder="Email"
-                    component={TextInput}
+                    label="Email"
+                    component={FormInput}
                     validate={email}
                     type="email"
+                    autoComplete="email"
+                    required
+                    controlProps={{
+                      className: classes.field
+                    }}
                   />
                   <Field
-                    className={classes.field}
                     name="password"
-                    placeholder="Пароль"
-                    component={TextInput}
+                    label="Пароль"
+                    component={FormInput}
+                    validate={notEmpty}
                     type="password"
-                    withoutDelay
+                    autoComplete="new-password"
+                    required
+                    controlProps={{
+                      className: classes.field
+                    }}
                   />
                   <Field
-                    className={classes.field}
                     name="passwordRepeated"
-                    placeholder="Повторите пароль"
-                    component={TextInput}
+                    label="Повторите пароль"
+                    component={FormInput}
+                    validate={sameAsOriginal('password', 'Пароли не совпадают')}
                     type="password"
-                    withoutDelay
+                    autoComplete="new-password"
+                    required
+                    controlProps={{
+                      className: classes.field
+                    }}
                   />
-                  {/* {error && !submitting && <div className={classes.errorMsg}>{error}</div>} */}
+                  <ErrorsList
+                    show={!isEmpty(errors) && !isRegistrationSubmitting}
+                    errors={errors}
+                  />
                   <Button
-                    htmlType="submit"
-                    // disabled={submitting}
-                    type="primary"
-                    className={classes.submitButton}
+                    classes={{ root: classes.submitButton }}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
                   >
                     Зарегистрироваться
                   </Button>
-                  <LoadingOverlay show={false} />
+                  <LoadingOverlay show={isRegistrationSubmitting} />
                 </form>
-              </section>
+              </Paper>
             )}
           />
         </section>

@@ -4,14 +4,18 @@ import { observer, inject } from 'mobx-react'
 import injectStyles, { JSSProps } from 'react-jss'
 import { compose } from 'recompose'
 import { hot } from 'react-hot-loader'
+import isEmpty from 'lodash/isEmpty'
+
+import Paper from '@material-ui/core/Paper'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
 
 import { UserStore } from 'lib/store/modules/user'
 import AppHelmet from 'components/AppHelmet'
-import TextInput from 'components/FormFields/components/TextInput'
-import Button from 'components/Button'
+import FormInput from 'components/FormFields/components/Input'
+import ErrorsList from 'components/ErrorsList'
 import LoadingOverlay from 'components/LoadingOverlay'
-import { email } from 'lib/utils/validations'
-import { STATES } from 'constants/api'
+import { email, notEmpty } from 'lib/utils/validations'
 import styles from './styles'
 
 interface FormValues {
@@ -28,7 +32,7 @@ interface State {}
 @observer
 class Login extends Component<Props, State> {
   onSubmit = ({ email, password }: FormValues) => {
-    this.props.userStore.authorize(email, password)
+    this.props.userStore.login(email, password)
   }
 
   render() {
@@ -36,11 +40,11 @@ class Login extends Component<Props, State> {
       classes,
       userStore: {
         requests: {
-          authorization: { state }
-        }
+          authorization: { state, errors }
+        },
+        isAuthorizationSubmitting
       }
     } = this.props
-    const submitting = state === STATES.LOADING
 
     return (
       <Fragment>
@@ -50,37 +54,50 @@ class Login extends Component<Props, State> {
           <Form
             onSubmit={this.onSubmit}
             render={({ handleSubmit, pristine, invalid }) => (
-              <section className={classes.formWrapper}>
-                <h2 className={classes.title}>Авторизация</h2>
+              <Paper className={classes.formWrapper}>
+                <Typography variant="h5" component="h2">
+                  Авторизация
+                </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                   <Field
-                    className={classes.field}
                     name="email"
-                    placeholder="Email"
-                    component={TextInput}
+                    label="Email"
+                    component={FormInput}
                     validate={email}
                     type="email"
+                    autoComplete="email"
+                    required
+                    controlProps={{
+                      className: classes.field
+                    }}
                   />
                   <Field
-                    className={classes.field}
                     name="password"
-                    placeholder="Пароль"
-                    component={TextInput}
+                    label="Пароль"
+                    component={FormInput}
+                    validate={notEmpty}
                     type="password"
-                    withoutDelay
+                    autoComplete="password"
+                    required
+                    controlProps={{
+                      className: classes.field
+                    }}
                   />
-                  {/* {error && !submitting && <div className={classes.errorMsg}>{error}</div>} */}
+                  <ErrorsList
+                    show={!isEmpty(errors) && !isAuthorizationSubmitting}
+                    errors={errors}
+                  />
                   <Button
-                    htmlType="submit"
-                    disabled={submitting}
-                    type="primary"
-                    className={classes.submitButton}
+                    classes={{ root: classes.submitButton }}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
                   >
                     Войти
                   </Button>
+                  <LoadingOverlay show={isAuthorizationSubmitting} />
                 </form>
-                <LoadingOverlay show={submitting} />
-              </section>
+              </Paper>
             )}
           />
         </section>

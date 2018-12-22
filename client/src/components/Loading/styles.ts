@@ -32,7 +32,7 @@ const styles = (theme: App.Theme) => ({
     backgroundColor: (props: Props) => props.background || 'transparent',
     borderRadius: '100%',
     borderWidth: (props: Props) => (props.size ? '0.1em' : 6),
-    borderColor: (props: Props) => props.color || theme.colors.primary,
+    borderColor: (props: Props) => props.color || theme.palette.primary.main,
     border: 'solid',
     borderBottomColor: 'transparent !important',
     borderLeftColor: 'transparent !important',

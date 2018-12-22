@@ -4,11 +4,13 @@ import browserPlugin from 'router5/plugins/browser'
 import { mobxPlugin } from 'mobx-router5'
 
 import routerStore from 'src/lib/store/modules/router'
-import { routes } from '../../../routes'
+import authorizationMiddleware from './middlewares/authorizationValidator'
+import { routes } from 'src/routes'
 
 const router = createRouter(routes, { allowNotFound: true })
   .usePlugin(mobxPlugin(routerStore))
   .usePlugin(browserPlugin())
+  .useMiddleware(authorizationMiddleware)
 
 if (process.env.NODE_ENV === 'development') {
   router.usePlugin(loggerPlugin)

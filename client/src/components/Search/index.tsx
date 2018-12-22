@@ -1,6 +1,4 @@
 import React, { Component, FormEvent, MouseEventHandler } from 'react'
-import { compose } from 'recompose'
-import { hot } from 'react-hot-loader'
 import injectStyles, { JSSProps } from 'react-jss'
 import Autosuggest, {
   ChangeEvent,
