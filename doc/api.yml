@@ -13,6 +13,8 @@ paths:
 
   /v1/profile:
     $ref: './endpoints/v1/profile.yml#/collection/index'
+  /v1/profile/confirm:
+    $ref: './endpoints/v1/profile.yml#/collection/confirm'
 
 components:
   securitySchemes:

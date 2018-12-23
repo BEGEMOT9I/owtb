@@ -5,4 +5,4 @@ html
     p
       | Для подтверждения учетной записи перейдите по ссылке:
     br
-    a src="https://#{ENV.fetch('DOMAIN', 'localhost:3000')}/user/confirmation/#{@user.confirmation_token}" = "https://#{ENV.fetch('DOMAIN', 'localhost:3000')}/user/confirmation/#{@user.confirmation_token}"
+    a src="https://#{ENV.fetch('DOMAIN', 'localhost:3000')}/user/confirm/#{@user.confirmation_token}" = "https://#{ENV.fetch('DOMAIN', 'localhost:3000')}/user/confirm/#{@user.confirmation_token}"

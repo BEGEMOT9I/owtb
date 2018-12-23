@@ -29,6 +29,14 @@ class Api::V1::ProfilesController < Api::V1::ApplicationController
     render json: ProfileSerializer.new(result.user).as_json
   end
 
+  def confirm
+    result = UserServices::Confirm.call(user: current_user, params: params[:confirmation_token])
+    if result.failure?
+      return render json: { errors: result.error }, status: 422
+    end
+    head :ok
+  end
+
   def destroy
     current_user.destroy
     head :ok

@@ -84,3 +84,20 @@ collection:
       responses:
         200:
           description: "Successful operation"
+  confirm:
+    get:
+      tags:
+        - "profile"
+      summary: "Подтверждение email"
+      security:
+        - api_key: []
+      parameters:
+        - name: confirmation_token
+          in: query
+          description: Токен подтверждения
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Successful operation"
